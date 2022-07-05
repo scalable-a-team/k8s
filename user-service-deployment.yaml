@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user-service
+  labels:
+    app: user-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: user-service
+  template:
+    metadata:
+      labels:
+        app: user-service
+    spec:
+      containers:
+      - name: user-service
+        image: ghcr.io/scalable-a-team/user-service
+        ports:
+          - containerPort: 8000
+        env:
+          - name: PORT
+            value: "8000"
+          - name: JWT_SECRET_KEY
+            value: Azxc9123zxcCadfrafs
+          - name: JWT_IDENTITY_KEY
+            value: username
+          - name: DB_HOST
+            value: user-db
+          - name: DB_PORT
+            value: "5432"
+          - name: DB_NAME
+            value: user
+          - name: DB_USER
+            value: postgres
+          - name: DB_PASSWORD
+            value: userdbpassword
+      imagePullSecrets:
+        - name: gh-regcred
