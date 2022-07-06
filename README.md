@@ -14,7 +14,7 @@ helm repo add kong https://charts.konghq.com
 #### Create Secret for Github PAT
 
 ```bash
-kubectl create secret docker-registry gh-regcred --docker-server=ghcr.io --docker-username=nakarinh14 --docker-password=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
+kubectl create secret docker-registry gh-regcred --docker-server=ghcr.io --docker-username=GITHUB_USERNAME --docker-password=GITHUB_PAT
 ```
 
 
