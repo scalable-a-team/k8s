@@ -23,7 +23,7 @@ spec:
           - name: PORT
             value: "8000"
           - name: JWT_SECRET_KEY
-            value: Azxc9123zxcCadfrafs
+            value: USERJWTSECRETA0zxco1
           - name: JWT_IDENTITY_KEY
             value: username
           - name: DB_HOST
