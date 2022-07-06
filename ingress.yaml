@@ -1,21 +1,3 @@
-apiVersion: configuration.konghq.com/v1
-kind: KongPlugin
-metadata:
-  name: app-jwt
-plugin: jwt
-
----
-
-apiVersion: configuration.konghq.com/v1
-kind: KongConsumer
-metadata:
-  name: user
-  annotations:
-    kubernetes.io/ingress.class: kong
-username: user
-
----
-
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:

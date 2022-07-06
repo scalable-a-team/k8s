@@ -2,6 +2,8 @@ apiVersion: v1
 kind: Service
 metadata:
   name: user-service
+  annotations:
+    konghq.com/plugins: app-jwt-public
 spec:
   ports:
   - port: 8000
