@@ -5,7 +5,7 @@ metadata:
 type: Opaque
 stringData:
   kongCredType: jwt
-  key: user-issuer
+  key: login-issuer
   algorithm: HS256
   secret: USERJWTSECRETA0zxco1
 
