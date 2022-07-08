@@ -17,8 +17,6 @@ spec:
       containers:
       - name: user-service
         image: ghcr.io/scalable-a-team/user-service
-        # image:  nakarin/user-service:local
-        # imagePullPolicy: Never
         ports:
           - containerPort: 8000
         env:
