@@ -17,13 +17,17 @@ spec:
       containers:
       - name: user-service
         image: ghcr.io/scalable-a-team/user-service
+        # image:  nakarin/user-service:local
+        # imagePullPolicy: Never
         ports:
           - containerPort: 8000
         env:
           - name: PORT
             value: "8000"
-          - name: JWT_SECRET_KEY
+          - name: JWT_CUSTOMER_SECRET_KEY
             value: USERJWTSECRETA0zxco1
+          - name: JWT_SELLER_SECRET_KEY
+            value: SELLERJWTSECRETA0zxco1
           - name: JWT_IDENTITY_KEY
             value: username
           - name: DB_HOST

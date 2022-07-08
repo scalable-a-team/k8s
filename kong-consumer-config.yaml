@@ -11,6 +11,19 @@ stringData:
 
 ---
 
+apiVersion: v1
+kind: Secret
+metadata:
+  name: seller-kong-jwt-secret
+type: Opaque
+stringData:
+  kongCredType: jwt
+  key: login-issuer
+  algorithm: HS256
+  secret: SELLERJWTSECRETA0zxco1
+
+---
+
 apiVersion: configuration.konghq.com/v1
 kind: KongConsumer
 metadata:
@@ -20,6 +33,19 @@ metadata:
 username: user
 credentials:
   - user-kong-jwt-secret
+
+---
+
+
+apiVersion: configuration.konghq.com/v1
+kind: KongConsumer
+metadata:
+  name: seller
+  annotations:
+    kubernetes.io/ingress.class: kong
+username: seller
+credentials:
+  - seller-kong-jwt-secret
 
 ---
 
