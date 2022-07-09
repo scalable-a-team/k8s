@@ -3,13 +3,15 @@ kind: Ingress
 metadata:
   name: kong-ingress
   namespace: default
+  annotations:
+    konghq.com/plugins: app-jwt-public
  
 spec:
   ingressClassName: kong
   rules:
   - http:
       paths:
-      - path: /api/auth
+      - path: /api/user
         pathType: Prefix
         backend:
           service:

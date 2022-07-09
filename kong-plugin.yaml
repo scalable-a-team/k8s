@@ -1,10 +1,25 @@
+# apiVersion: configuration.konghq.com/v1
+# kind: KongClusterPlugin
+# metadata:
+#   name: jwtheader
+#   annotations:
+#     kubernetes.io/ingress.class: kong
+#   labels:
+#     global: "true"
+# config: 
+#   strip_claims: false
+#   token_required: true
+# plugin: kong-jwt2header
+
+# ---
+
 apiVersion: configuration.konghq.com/v1
 kind: KongPlugin
 metadata:
   name: app-jwt-auth-only
 config:
-  anonymous: anon
-  claims_to_verify: exp
+  claims_to_verify: 
+    - exp
 plugin: jwt
 
 ---
@@ -15,20 +30,6 @@ metadata:
   name: app-jwt-public
 config:
   anonymous: anon
-  claims_to_verify: exp
+  claims_to_verify: 
+    - exp
 plugin: jwt
-
----
-
-apiVersion: configuration.konghq.com/v1
-kind: KongClusterPlugin
-metadata:
-  name: jwtheader
-  annotations:
-    kubernetes.io/ingress.class: kong
-  labels:
-    global: "true"
-config: 
-  strip_claims: false
-  token_required: true
-plugin: kong-jwt2header

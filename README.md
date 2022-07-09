@@ -21,7 +21,7 @@ kubectl create secret docker-registry gh-regcred --docker-server=ghcr.io --docke
 #### Install Kong Ingress
 
 ```bash
-helm install kong/kong --generate-name --set ingressController.installCRDs=false
+helm install kong/kong -f kong-values.yaml --generate-name
 ```
 
 
@@ -31,3 +31,10 @@ helm install kong/kong --generate-name --set ingressController.installCRDs=false
 kubectl apply -f .
 ```
 
+#### Accessing
+
+API gateway can be access through localhost:80, for instance User service:
+
+```bash
+http://localhost:80/api/user/...
+```

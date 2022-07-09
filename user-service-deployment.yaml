@@ -23,9 +23,13 @@ spec:
           - name: PORT
             value: "8000"
           - name: JWT_CUSTOMER_SECRET_KEY
-            value: USERJWTSECRETA0zxco1
+            value: user-secret
           - name: JWT_SELLER_SECRET_KEY
-            value: SELLERJWTSECRETA0zxco1
+            value: seller-secret
+          - name: JWT_BUYER_ISS
+            value: login-buyer-issuer
+          - name: JWT_SELLER_ISS
+            value: login-seller-issuer
           - name: JWT_IDENTITY_KEY
             value: username
           - name: DB_HOST
