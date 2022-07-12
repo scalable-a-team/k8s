@@ -1,17 +1,17 @@
-# apiVersion: configuration.konghq.com/v1
-# kind: KongClusterPlugin
-# metadata:
-#   name: jwtheader
-#   annotations:
-#     kubernetes.io/ingress.class: kong
-#   labels:
-#     global: "true"
-# config: 
-#   strip_claims: false
-#   token_required: true
-# plugin: kong-jwt2header
+apiVersion: configuration.konghq.com/v1
+kind: KongClusterPlugin
+metadata:
+  name: jwtheader
+  annotations:
+    kubernetes.io/ingress.class: kong
+  labels:
+    global: true
+config: 
+  strip_claims: "false"
+  token_required: "true"
+plugin: kong-jwt2header
 
-# ---
+---
 
 apiVersion: configuration.konghq.com/v1
 kind: KongPlugin

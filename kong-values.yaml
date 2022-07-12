@@ -363,7 +363,10 @@ udpProxy:
 # Subdirectories (which are optional) require separate ConfigMaps/Secrets.
 # "path" indicates their directory under the main plugin directory: the example
 # below will mount the contents of kong-plugin-rewriter-migrations at "/opt/kong/rewriter/migrations".
-plugins: {}
+plugins: 
+  configMaps:                # change this to 'secrets' if you created a secret
+  - name: kong-plugin-jwtheader
+    pluginName: kong-jwt2header
   # configMaps:
   # - pluginName: rewriter
   #   name: kong-plugin-rewriter
