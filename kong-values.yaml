@@ -147,7 +147,7 @@ admin:
 
   tls:
     # Enable HTTPS listen for the admin API
-    enabled: true
+    enabled: false
     servicePort: 8444
     containerPort: 8444
     # Set a target port for the TLS port in the admin API service, useful when using TLS

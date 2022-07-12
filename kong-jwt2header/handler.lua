@@ -36,7 +36,7 @@ function JWT2Header:rewrite(conf)
 
   if kong.request.get_header("X-Kong-JWT-Kong-Proceed") == "yes" then
     for claim, value in pairs(claims) do
-      if type(claim) == "string" and type(value) == "string" then
+      if type(claim) == "string" then
         kong.service.request.set_header("X-Kong-JWT-Claim-" .. claim, value)
       end
     end

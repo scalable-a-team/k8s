@@ -22,9 +22,7 @@ kubectl create secret docker-registry gh-regcred --docker-server=ghcr.io --docke
 
 ```bash
 kubectl create configmap kong-plugin-jwtheader --from-file=kong-jwt2header
-```
 
-```bash
 helm install kong/kong -f kong-values.yaml --generate-name
 ```
 
