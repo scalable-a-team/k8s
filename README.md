@@ -18,6 +18,11 @@ kubectl create secret docker-registry gh-regcred --docker-server=ghcr.io --docke
 ```
 
 
+#### Install RabbitMQ Cluster Operator
+```bash
+kubectl apply -f "https://github.com/rabbitmq/cluster-operator/releases/latest/download/cluster-operator.yml"   
+```
+
 #### Install Kong Ingress
 
 ```bash
@@ -35,7 +40,7 @@ kubectl apply -f .
 
 #### Accessing
 
-API gateway can be access through localhost:80, for instance User service:
+API gateway can be access through `localhost:80`, for instance User service:
 
 ```bash
 http://localhost:80/api/user/...
