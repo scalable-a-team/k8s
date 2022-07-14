@@ -25,7 +25,7 @@ spec:
           - name: OTEL_RESOURCE_ATTRIBUTES
             value: "service.name=OrderDjangoApp"
           - name: OTEL_EXPORTER_OTLP_ENDPOINT
-            value: "signoz-otel-collector.signoz.svc.cluster.local:4317"
+            value: "http://signoz-otel-collector.signoz.svc.cluster.local:4317"
           - name: PORT
             value: "8000"
           - name: CELERY_BROKER_URL
