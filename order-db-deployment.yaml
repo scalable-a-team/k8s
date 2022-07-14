@@ -58,7 +58,7 @@ spec:
             - name: POSTGRES_PASSWORD
               value: userdbpassword
             - name: POSTGRES_DB
-              value: user
+              value: order
       volumes:
         - name: order-db-volume
           persistentVolumeClaim:
