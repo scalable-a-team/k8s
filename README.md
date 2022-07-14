@@ -38,7 +38,7 @@ helm install kong/kong -f kong-values.yaml --generate-name
 ```bash
 kubectl create ns signoz
 
-helm --namespace signoz install signoz/signoz --generate-name
+helm --namespace signoz install signoz signoz/signoz
 ```
 #### Apply usual K8S config
 
