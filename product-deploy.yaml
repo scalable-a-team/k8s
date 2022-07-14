@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: product-service
+  labels:
+    app: product-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: product-service
+  template:
+    metadata:
+      labels:
+        app: product-service
+    spec:
+      containers:
+      - name: product-service
+        image: ghcr.io/scalable-a-team/elastic-products
+        ports:
+          - containerPort: 5003
+        env:
+          - name: S3_ACCESS_KEY
+            value: rootateam
+          - name: S3_SECRET
+            value: ateamrootpwd
+          - name: S3_ENDPOINT_URL
+            value: "https://tanpantz.com:9000"
+          - name: AWS_ACCESS_KEY_ID
+            value: "AKIA4N7U7RQYD7CX5WHS"
+          - name: AWS_SECRET_KEY
+            value: "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"
+      imagePullSecrets:
+        - name: gh-regcred
