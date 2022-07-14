@@ -64,3 +64,16 @@ kubectl --namespace signoz port-forward svc/$SERVICE_NAME 3301:3301
 ```
 
 Next, register a random account (these will not be persistence after clearing k8s)
+
+
+#For running Elastic-search on k8s deployment
+```
+minikube start
+```
+```
+helm install elasticsearch-multi-master elastic/elasticsearch -f ./es-master.yaml
+
+helm install elasticsearch-multi-data elastic/elasticsearch -f ./es-data.yaml
+
+helm install elasticsearch-multi-client elastic/elasticsearch -f ./es-client.yaml
+```
