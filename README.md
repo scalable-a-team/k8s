@@ -2,12 +2,15 @@
 ## Prerequisites
 
 
-#### Add kong to `helm` repo
+#### Add required `helm` repo
 
 ```bash
 helm repo add kong https://charts.konghq.com
 ```
 
+``` bash
+helm repo add signoz https://charts.signoz.io
+```
 
 ## Running K8S
 
@@ -31,17 +34,33 @@ kubectl create configmap kong-plugin-jwtheader --from-file=kong-jwt2header
 helm install kong/kong -f kong-values.yaml --generate-name
 ```
 
+#### Install OpenTelemetry Collector and SigNoz Fullstack App
+```bash
+kubectl create ns signoz
 
+helm --namespace signoz install signoz/signoz --generate-name
+```
 #### Apply usual K8S config
 
 ```bash
 kubectl apply -f .
 ```
 
-#### Accessing
+#### Accessing Kong
 
 API gateway can be access through `localhost:80`, for instance User service:
 
 ```bash
 http://localhost:80/api/user/...
 ```
+
+#### Access Tracing/Log/Metrics dashboard
+Need to expose SigNoz frontend to `localhost:3301` and access
+
+```bash
+export SERVICE_NAME=$(kubectl get svc --namespace signoz -l "app.kubernetes.io/component=frontend" -o jsonpath="{.items[0].metadata.name}")
+
+kubectl --namespace signoz port-forward svc/$SERVICE_NAME 3301:3301
+```
+
+Next, register a random account (these will not be persistence after clearing k8s)
