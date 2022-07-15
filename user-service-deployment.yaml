@@ -22,6 +22,10 @@ spec:
         env:
           - name: PORT
             value: "8000"
+          - name: OTEL_RESOURCE_ATTRIBUTES
+            value: "service.name=UserService"
+          - name: OTEL_EXPORTER_OTLP_ENDPOINT
+            value: "http://signoz-otel-collector.signoz.svc.cluster.local:4317"
           - name: JWT_CUSTOMER_SECRET_KEY
             value: user-secret
           - name: JWT_SELLER_SECRET_KEY
