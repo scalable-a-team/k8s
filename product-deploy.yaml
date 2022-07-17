@@ -18,7 +18,7 @@ spec:
       - name: product-service
         image: ghcr.io/scalable-a-team/elastic-products
         ports:
-          - containerPort: 5003
+          - containerPort: 5000
         env:
           - name: S3_ACCESS_KEY
             value: "AKIA4N7U7RQYD7CX5WHS"
