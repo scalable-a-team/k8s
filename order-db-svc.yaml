@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: order-db
   labels:
-    app: ordr-db
+    app: order-db
 spec:
   type: NodePort
   ports:
