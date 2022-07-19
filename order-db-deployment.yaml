@@ -10,7 +10,7 @@ spec:
   capacity:
     storage: 2Gi
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   hostPath:
     path: "/mnt/data1"
 
@@ -24,7 +24,7 @@ metadata:
 spec:
   storageClassName: manual
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   resources:
     requests:
       storage: 2Gi
