@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Secret
 metadata:
-  name: s3-cred-secrets
+  name: postgres-creds
 type: Opaque
 data:
   user: doadmin
