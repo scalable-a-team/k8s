@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: s3-cred-secrets
+type: Opaque
+data:
+  user: doadmin
+  password: AVNS_JxxxZRO3xq0gN0JrQqh
