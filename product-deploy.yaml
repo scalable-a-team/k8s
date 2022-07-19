@@ -21,14 +21,26 @@ spec:
           - containerPort: 5000
         env:
           - name: S3_ACCESS_KEY
-            value: "AKIA4N7U7RQYD7CX5WHS"
+            valueFrom:
+              secretKeyRef:
+                name: s3-cred-secrets
+                key: access_key
           - name: S3_SECRET
-            value: "f5RTqMXhhQ8smlsrjeVdVnIzS2W8jMDbA2Yk/nT7"
+            valueFrom:
+              secretKeyRef:
+                name: s3-cred-secrets
+                key: secret
           - name: S3_ENDPOINT_URL
             value: "https://tanpantz.com:9000"
           - name: AWS_ACCESS_KEY_ID
-            value: "AKIA4N7U7RQYD7CX5WHS"
+            valueFrom:
+              secretKeyRef:
+                name: s3-cred-secrets
+                key: access_key
           - name: AWS_SECRET_KEY
-            value: "f5RTqMXhhQ8smlsrjeVdVnIzS2W8jMDbA2Yk/nT7"
+            valueFrom:
+              secretKeyRef:
+                name: s3-cred-secrets
+                key: secret
       imagePullSecrets:
         - name: gh-regcred
