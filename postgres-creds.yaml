@@ -3,6 +3,6 @@ kind: Secret
 metadata:
   name: postgres-creds
 type: Opaque
-data:
+stringData:
   user: doadmin
   password: AVNS_JxxxZRO3xq0gN0JrQqh
