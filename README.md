@@ -34,7 +34,7 @@ kubectl create configmap kong-plugin-jwtheader --from-file=kong-jwt2header
 helm install kong/kong -f kong-values.yaml --generate-name
 ```
 
-#### Install OpenTelemetry Collector and SigNoz Fullstack App
+#### Install OpenTelemetry Collector and SigNoz Fullstack App (Optional)
 ```bash
 kubectl create ns signoz
 
