@@ -63,6 +63,10 @@ spec:
                 - -c
                 - |
                    until pg_isready -U postgres --timeout=1; do sleep 2; done;
+                   
+                   host_node_name="${HOSTNAME}.${POD_NAMESPACE}.svc.cluster.local";
+                   psql -c "SELECT * from citus_set_coordinator_host('${host_node_name}', 5432);";
+
                    timeout 1m sh -c "until nslookup user-citus-worker-0.user-citus-workers.default.svc.cluster.local > /dev/null; do sleep 2; done;";
                    nslookup user-citus-worker-0.user-citus-workers.default.svc.cluster.local > /dev/null || { echo Name not ready; kill -9 1; exit 1; }
                    psql 'user=postgres' -c "SELECT * from citus_add_node('user-citus-worker-0.user-citus-workers.default.svc.cluster.local', 5432);";
@@ -74,6 +78,8 @@ spec:
                    timeout 1m sh -c "until nslookup user-citus-worker-2.user-citus-workers.default.svc.cluster.local > /dev/null; do sleep 2; done;";
                    nslookup user-citus-worker-2.user-citus-workers.default.svc.cluster.local > /dev/null || { echo Name not ready; kill -9 1; exit 1; }
                    psql 'user=postgres' -c "SELECT * from citus_add_node('user-citus-worker-2.user-citus-workers.default.svc.cluster.local', 5432);";
+
+                   psql 'user=postgres' -c "SELECT rebalance_table_shards();";
         ports:
         - containerPort: 5432
         env:
