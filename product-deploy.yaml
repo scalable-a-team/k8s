@@ -20,18 +20,8 @@ spec:
         ports:
           - containerPort: 5000
         env:
-          - name: S3_ACCESS_KEY
-            valueFrom:
-              secretKeyRef:
-                name: s3-cred-secrets
-                key: access_key
-          - name: S3_SECRET
-            valueFrom:
-              secretKeyRef:
-                name: s3-cred-secrets
-                key: secret
           - name: S3_ENDPOINT_URL
-            value: "https://tanpantz.com:9000"
+            value: "https://scalable-final-products.s3.ap-southeast-1.amazonaws.com/"
           - name: AWS_ACCESS_KEY_ID
             valueFrom:
               secretKeyRef:
@@ -42,5 +32,11 @@ spec:
               secretKeyRef:
                 name: s3-cred-secrets
                 key: secret
+          - name: ES_HOST
+            value: "https://search-scalable-final-proj-knlaqfap2p2aavmspdlhxboypm.ap-southeast-1.es.amazonaws.com/"
+          - name: ES_PORT
+            value: "9200"
+          - name: POSTGRES_HOST
+            value: "db-postgresql-sgp1-12618-do-user-4234964-0.b.db.ondigitalocean.com:25060/defaultdb?sslmode=require"
       imagePullSecrets:
         - name: gh-regcred
