@@ -8,7 +8,7 @@ metadata:
     global: "true"
 config: 
   strip_claims: "false"
-  token_required: "true"
+  token_required: "false"
 plugin: kong-jwt2header
 
 ---
