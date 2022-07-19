@@ -1,0 +1,80 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: user-citus-workers
+  labels:
+    app: user-citus-workers
+spec:
+  selector:
+    app: user-citus-workers
+  clusterIP: None
+  ports:
+  - port: 5432
+
+---
+
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: user-citus-worker
+spec:
+  selector:
+    matchLabels:
+      app: user-citus-workers
+  serviceName: user-citus-workers
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: user-citus-workers
+    spec:
+      containers:
+      - name: user-citus-worker
+        image: citusdata/citus:11.0.2-alpine
+        ports:
+        - containerPort: 5432
+        env:
+        - name: POD_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        - name: PGPASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: citus-secrets
+              key: password
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: citus-secrets
+              key: password
+        - name: PGDATA
+          value: /var/lib/postgresql/data/pgdata
+        volumeMounts:
+        - name: wstorage
+          mountPath: /var/lib/postgresql/data
+        livenessProbe:
+          exec:
+            command:
+            - ./pg_healthcheck
+          initialDelaySeconds: 60
+  volumeClaimTemplates:
+  - metadata:
+      name: wstorage
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      # storageClassName: local-storage 
+      # local:
+      #   path: /mnt/k8s
+      resources:
+        requests:
+          storage: 2Gi
+      # nodeAffinity:
+      #   required:
+      #     nodeSelectorTerms:
+      #     - matchExpressions:
+      #       - key: kubernetes.io/hostname
+      #         operator: In
+      #         values:
+      #           - docker-desktop
+

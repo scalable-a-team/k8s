@@ -1,0 +1,122 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: user-citus-coordinator
+  labels:
+    app: user-citus-coordinator
+    component: citus
+spec:
+  selector:
+    app: user-citus-coordinator
+  ports:
+  - port: 5432
+    name: postgres
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: pg-hba
+data:
+  pg_hba.conf: |
+    # TYPE  DATABASE        USER            ADDRESS                 METHOD
+    # "local" is for Unix domain socket connections only
+    local   all             all                                     trust
+    # IPv4 local connections:
+    host    all             all             127.0.0.1/32            trust
+    # IPv6 local connections:
+    host    all             all             ::1/128                 trust
+    # Allow replication connections from localhost, by a user with the
+    # replication privilege.
+    local   replication     all                                     trust
+    host    replication     all             127.0.0.1/32            trust
+    host    replication     all             ::1/128                 trust
+    host    replication     all             samenet                 trust
+    host    all             all             samenet                 trust
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: user-citus-coordinator
+spec:
+  selector:
+    matchLabels:
+      app: user-citus-coordinator
+  serviceName: user-citus-coordinator
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: user-citus-coordinator
+        component: citus
+    spec:
+      securityContext:
+        fsGroup: 999
+      containers:
+      - name: postgres
+        image: citusdata/citus:11.0.2-alpine
+        args: ['postgres', '-c', 'hba_file=/etc/postgres/pg_hba.conf']
+        lifecycle:
+          postStart:
+            exec:
+              command:
+                - sh
+                - -c
+                - |
+                   until pg_isready -U postgres --timeout=1; do sleep 2; done;
+                   timeout 1m sh -c "until nslookup user-citus-worker-0.user-citus-workers.default.svc.cluster.local > /dev/null; do sleep 2; done;";
+                   nslookup user-citus-worker-0.user-citus-workers.default.svc.cluster.local > /dev/null || { echo Name not ready; kill -9 1; exit 1; }
+                   psql 'user=postgres' -c "SELECT * from citus_add_node('user-citus-worker-0.user-citus-workers.default.svc.cluster.local', 5432);";
+
+                   timeout 1m sh -c "until nslookup user-citus-worker-1.user-citus-workers.default.svc.cluster.local > /dev/null; do sleep 2; done;";
+                   nslookup user-citus-worker-1.user-citus-workers.default.svc.cluster.local > /dev/null || { echo Name not ready; kill -9 1; exit 1; }
+                   psql 'user=postgres' -c "SELECT * from citus_add_node('user-citus-worker-1.user-citus-workers.default.svc.cluster.local', 5432);";
+
+                   timeout 1m sh -c "until nslookup user-citus-worker-2.user-citus-workers.default.svc.cluster.local > /dev/null; do sleep 2; done;";
+                   nslookup user-citus-worker-2.user-citus-workers.default.svc.cluster.local > /dev/null || { echo Name not ready; kill -9 1; exit 1; }
+                   psql 'user=postgres' -c "SELECT * from citus_add_node('user-citus-worker-2.user-citus-workers.default.svc.cluster.local', 5432);";
+        ports:
+        - containerPort: 5432
+        env:
+        - name: PGPASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: citus-secrets
+              key: password
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: citus-secrets
+              key: password
+        - name: PGDATA
+          value: /var/lib/postgresql/data/pgdata
+        volumeMounts:
+        - name: storage
+          mountPath: /var/lib/postgresql/data
+        - name: pg-hba
+          mountPath: "/etc/postgres"
+          readOnly: true
+        livenessProbe:
+          exec:
+            command:
+              - 'pg_isready'
+              - '-U'
+              - 'postgres'
+              - '--timeout=5'
+              - '--quiet'
+          initialDelaySeconds: 60
+      volumes:
+        - name: pg-hba
+          configMap:
+            name: pg-hba
+
+  volumeClaimTemplates:
+  - metadata:
+      name: storage
+      labels:
+        app: user-citus-coordinator
+        component: citus
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 5Gi

@@ -41,14 +41,19 @@ spec:
           - name: JWT_IDENTITY_KEY
             value: username
           - name: DB_HOST
-            value: user-db
+            value: user-citus-coordinator
           - name: DB_PORT
             value: "5432"
           - name: DB_NAME
-            value: user
+            value: postgres
           - name: DB_USER
             value: postgres
           - name: DB_PASSWORD
-            value: userdbpassword
+            valueFrom:
+              secretKeyRef:
+                name: citus-secrets
+                key: password
+          - name: CITUS_ENABLED
+            value: "true"
       imagePullSecrets:
         - name: gh-regcred
