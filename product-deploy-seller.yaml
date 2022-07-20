@@ -36,6 +36,10 @@ spec:
             value: "https://search-scalable-final-proj-knlaqfap2p2aavmspdlhxboypm.ap-southeast-1.es.amazonaws.com/"
           - name: ES_PORT
             value: "9200"
+          - name: OTEL_RESOURCE_ATTRIBUTES
+            value: "service.name=ProductFlaskApp"
+          - name: OTEL_EXPORTER_OTLP_ENDPOINT
+            value: "http://signoz-otel-collector.signoz.svc.cluster.local:4317"
           - name: POSTGRES_HOST
             value: "db-postgresql-sgp1-12618-do-user-4234964-0.b.db.ondigitalocean.com:25060/defaultdb?sslmode=require"
           - name: "POSTGRES_USER"
