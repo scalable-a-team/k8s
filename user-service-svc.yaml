@@ -11,4 +11,4 @@ spec:
     targetPort: 8000
   selector:
     app: user-service
-  type: LoadBalancer
+  type: ClusterIP
