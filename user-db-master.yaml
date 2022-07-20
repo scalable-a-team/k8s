@@ -62,11 +62,10 @@ spec:
                 - sh
                 - -c
                 - |
-                   sleep 10;
                    until pg_isready -U postgres --timeout=1; do sleep 2; done;
                    
                    host_node_name="${HOSTNAME}.user-citus-coordinator.default.svc.cluster.local";
-                   psql 'user=postgres' -c "SELECT * from citus_set_coordinator_host('${host_node_name}', 5432);";
+                   psql 'user=postgres' -c "SELECT * from citus_set_coordinator_host('${host_node_name}', 5432);" || { echo Set coordinator host failed; kill -9 1; exit 1; }
 
                    timeout 1m sh -c "until nslookup user-citus-worker-0.user-citus-workers.default.svc.cluster.local > /dev/null; do sleep 2; done;";
                    nslookup user-citus-worker-0.user-citus-workers.default.svc.cluster.local > /dev/null || { echo Name not ready; kill -9 1; exit 1; }
@@ -80,7 +79,7 @@ spec:
                    nslookup user-citus-worker-2.user-citus-workers.default.svc.cluster.local > /dev/null || { echo Name not ready; kill -9 1; exit 1; }
                    psql 'user=postgres' -c "SELECT * from citus_add_node('user-citus-worker-2.user-citus-workers.default.svc.cluster.local', 5432);" || { echo Add node failed; kill -9 1; exit 1; }
 
-                   psql 'user=postgres' -c "SELECT rebalance_table_shards();";
+                   psql 'user=postgres' -c "SELECT rebalance_table_shards();" || { echo Rebalance shards failed; kill -9 1; exit 1; }
         ports:
         - containerPort: 5432
         env:
