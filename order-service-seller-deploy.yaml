@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: order-service-seller
+  labels:
+    app: order-service-seller
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: order-service-seller
+  template:
+    metadata:
+      labels:
+        app: order-service-seller
+    spec:
+      containers:
+      - name: order-service-seller
+        image: ghcr.io/scalable-a-team/order-service
+        ports:
+          - containerPort: 8000
+        env:
+          - name: DJANGO_SETTINGS_MODULE
+            value: "order_django.settings"
+          - name: OTEL_RESOURCE_ATTRIBUTES
+            value: "service.name=OrderDjangoApp"
+          - name: OTEL_EXPORTER_OTLP_ENDPOINT
+            value: "http://signoz-otel-collector.signoz.svc.cluster.local:4317"
+          - name: PORT
+            value: "8000"
+          - name: CELERY_BROKER_URL
+            value: "amqp://guest:guest@rabbitmq.default.svc.cluster.local:5672//"
+          - name: DB_HOST
+            value: order-db
+          - name: DB_PORT
+            value: "5432"
+          - name: DB_NAME
+            value: order
+          - name: DB_USER
+            value: postgres
+          - name: DB_PASSWORD
+            value: userdbpassword
+      imagePullSecrets:
+        - name: gh-regcred

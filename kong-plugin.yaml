@@ -16,8 +16,9 @@ plugin: kong-jwt2header
 apiVersion: configuration.konghq.com/v1
 kind: KongPlugin
 metadata:
-  name: app-jwt-auth-only
+  name: app-jwt-public
 config:
+  anonymous: anon
   claims_to_verify: 
     - exp
 plugin: jwt
@@ -27,9 +28,31 @@ plugin: jwt
 apiVersion: configuration.konghq.com/v1
 kind: KongPlugin
 metadata:
-  name: app-jwt-public
-config:
-  anonymous: anon
-  claims_to_verify: 
-    - exp
-plugin: jwt
+  name: auth-all-acl
+config: 
+  allow:
+  - seller
+  - buyer
+plugin: acl
+
+---
+
+apiVersion: configuration.konghq.com/v1
+kind: KongPlugin
+metadata:
+  name: buyer-acl
+config: 
+  allow:
+  - buyer
+plugin: acl
+
+---
+
+apiVersion: configuration.konghq.com/v1
+kind: KongPlugin
+metadata:
+  name: seller-acl
+config: 
+  allow:
+  - seller
+plugin: acl

@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: order-service
+  name: order-service-buyer
   labels:
-    app: order-service
+    app: order-service-buyer
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: order-service
+      app: order-service-buyer
   template:
     metadata:
       labels:
-        app: order-service
+        app: order-service-buyer
     spec:
       containers:
-      - name: order-service
+      - name: order-service-buyer
         image: ghcr.io/scalable-a-team/order-service
         ports:
           - containerPort: 8000
