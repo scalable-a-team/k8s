@@ -38,11 +38,11 @@ spec:
           service:
             name: product-service-seller
             port:
-              number: 5000
+              number: 8000
       - path: /api/product
         pathType: Prefix
         backend:
           service:
             name: product-service-public
             port:
-              number: 5000
+              number: 8000

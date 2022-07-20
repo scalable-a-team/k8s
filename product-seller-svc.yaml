@@ -6,9 +6,9 @@ metadata:
     konghq.com/plugins: seller-acl
 spec:
   ports:
-  - port: 5000
+  - port: 8000
     protocol: TCP
-    targetPort: 5000
+    targetPort: 8000
   selector:
     app: product-service-seller
   type: ClusterIP
