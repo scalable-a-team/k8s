@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: product-service
+  name: product-service-public
   labels:
-    app: product-service
+    app: product-service-public
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: product-service
+      app: product-service-public
   template:
     metadata:
       labels:
-        app: product-service
+        app: product-service-public
     spec:
       containers:
-      - name: product-service
+      - name: product-service-public
         image: ghcr.io/scalable-a-team/elastic-products/elastic-products
         ports:
           - containerPort: 5000

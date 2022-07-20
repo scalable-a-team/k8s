@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: product-service-seller
+  labels:
+    app: product-service-seller
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: product-service-seller
+  template:
+    metadata:
+      labels:
+        app: product-service-seller
+    spec:
+      containers:
+      - name: product-service-seller
+        image: ghcr.io/scalable-a-team/elastic-products/elastic-products
+        ports:
+          - containerPort: 5000
+        env:
+          - name: S3_ENDPOINT_URL
+            value: "https://scalable-final-products.s3.ap-southeast-1.amazonaws.com/"
+          - name: AWS_ACCESS_KEY_ID
+            valueFrom:
+              secretKeyRef:
+                name: s3-cred-secrets
+                key: access_key
+          - name: AWS_SECRET_KEY
+            valueFrom:
+              secretKeyRef:
+                name: s3-cred-secrets
+                key: secret
+          - name: ES_HOST
+            value: "https://search-scalable-final-proj-knlaqfap2p2aavmspdlhxboypm.ap-southeast-1.es.amazonaws.com/"
+          - name: ES_PORT
+            value: "9200"
+          - name: POSTGRES_HOST
+            value: "db-postgresql-sgp1-12618-do-user-4234964-0.b.db.ondigitalocean.com:25060/defaultdb?sslmode=require"
+          - name: "POSTGRES_USER"
+            valueFrom:
+              secretKeyRef:
+                name: postgres-creds
+                key: user
+          - name: "POSTGRES_PASSWORD" 
+            valueFrom:
+              secretKeyRef:
+                name: postgres-creds
+                key: password
+      imagePullSecrets:
+        - name: gh-regcred
