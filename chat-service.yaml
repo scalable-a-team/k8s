@@ -20,8 +20,12 @@ spec:
           env:
             - name: API_PREFIX
               value: "/api"
+            - name: DB_HOST
+              value: mongos1
+            - name: DB_PORT
+              value: "27017"
           ports:
-            - containerPort: 8080
+            - containerPort: 8000
           resources:
             requests:
               cpu: 100m
@@ -38,8 +42,8 @@ metadata:
   name: chat-service
 spec:
   ports:
-    - port: 8080
+    - port: 8000
       protocol: TCP
-      targetPort: 8080
+      targetPort: 8000
   selector:
     app: chat-service

@@ -10,7 +10,7 @@ spec:
       protocol: TCP
   selector:
     run: mongos1
-  type: LoadBalancer
+  # type: LoadBalancer
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -61,7 +61,7 @@ spec:
       protocol: TCP
   selector:
     run: mongos2
-  type: LoadBalancer
+  # type: LoadBalancer
 ---
 apiVersion: apps/v1
 kind: Deployment

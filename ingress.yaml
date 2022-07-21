@@ -5,44 +5,58 @@ metadata:
   namespace: default
   annotations:
     konghq.com/plugins: app-jwt-public
- 
+
 spec:
   ingressClassName: kong
   rules:
-  - http:
-      paths:
-      - path: /api/user
-        pathType: Prefix
-        backend:
-          service:
-            name: user-service
-            port:
-              number: 8000
-      - path: /api/order/seller
-        pathType: Prefix
-        backend:
-          service:
-            name: order-service-seller
-            port:
-              number: 8000
-      - path: /api/order/buyer
-        pathType: Prefix
-        backend:
-          service:
-            name: order-service-buyer
-            port:
-              number: 8000
-      - path: /api/product/create
-        pathType: Prefix
-        backend:
-          service:
-            name: product-service-seller
-            port:
-              number: 8000
-      - path: /api/product
-        pathType: Prefix
-        backend:
-          service:
-            name: product-service-public
-            port:
-              number: 8000
+    - http:
+        paths:
+          - path: /api/user
+            pathType: Prefix
+            backend:
+              service:
+                name: user-service
+                port:
+                  number: 8000
+          - path: /api/order/seller
+            pathType: Prefix
+            backend:
+              service:
+                name: order-service-seller
+                port:
+                  number: 8000
+          - path: /api/order/buyer
+            pathType: Prefix
+            backend:
+              service:
+                name: order-service-buyer
+                port:
+                  number: 8000
+          - path: /api/product/create
+            pathType: Prefix
+            backend:
+              service:
+                name: product-service-seller
+                port:
+                  number: 8000
+          - path: /api/product
+            pathType: Prefix
+            backend:
+              service:
+                name: product-service-public
+                port:
+                  number: 8000
+          - path: /api/chat
+            pathType: Prefix
+            backend:
+              service:
+                name: chat-service
+                port:
+                  number: 8000
+          # - path: /api/messages
+          #   pathType: Prefix
+          #   backend:
+          #     service:
+          #       name: order-service-seller
+          #       port:
+          #         number: 8000
