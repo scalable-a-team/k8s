@@ -15,11 +15,12 @@ spec:
         app: client
     spec:
       containers:
-        - image: ghcr.io/scalable-a-team/frontend:latest
-          imagePullPolicy: Never
+        - image: ghcr.io/scalable-a-team/frontend
           name: client
           ports:
             - containerPort: 80
+      imagePullSecrets:
+        - name: gh-regcred
 ---
 apiVersion: v1
 kind: Service

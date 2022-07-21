@@ -16,8 +16,7 @@ spec:
     spec:
       containers:
         - name: chat-service
-          image: ghcr.io/scalable-a-team/chat-service:latest
-          imagePullPolicy: Never
+          image: ghcr.io/scalable-a-team/chat-service
           env:
             - name: API_PREFIX
               value: "/api"
@@ -27,6 +26,8 @@ spec:
             requests:
               cpu: 100m
               memory: 100Mi
+      imagePullSecrets:
+        - name: gh-regcred
 status: {}
 ---
 apiVersion: v1
