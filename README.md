@@ -80,7 +80,6 @@ helm install elasticsearch-multi-client elastic/elasticsearch -f ./es-client.yam
 
 #### Configing Sharded Mongo
 
-API gateway can be access through `localhost:80`, for instance User service:
 
 ```bash
 ./initiate.sh
