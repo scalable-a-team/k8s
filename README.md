@@ -82,5 +82,7 @@ helm install elasticsearch-multi-client elastic/elasticsearch -f ./es-client.yam
 
 
 ```bash
-./mongo/initiate.sh
+cd mongo
+chmod +x ./initiate.sh
+./initiate.sh
 ```
